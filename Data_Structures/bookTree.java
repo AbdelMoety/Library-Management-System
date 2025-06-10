@@ -3,21 +3,23 @@ public class bookTree
 {
     private tNode root;
 
-    public String insert(book book)
+    public String add(book book)
     {
         if(root == null)
         {
             root = new tNode(book);
             return "Book with name: " + book.name + ",and ID: " + book.id + " was added succefully.";
         }
-        return insertRecursion(root, book);
+        book.isAvailble = true;
+        return addRecursion(root, book);
     }
 
-    private String insertRecursion(tNode current, book book)
+    private String addRecursion(tNode current, book book)
     {
         if(book.id == current.book.id)
         {
-            return "Book with name: " + book.name + ",and ID: " + book.id + " was added succefully.";
+            current.book.count += book.count;
+            return book.count + " Books with name: " + book.name + ",and ID: " + book.id + "were added succefully." ;
         }
         
         else if(book.id < current.book.id)
@@ -28,7 +30,7 @@ public class bookTree
                 return "Book with name: " + book.name + ",and ID: " + book.id + " was added succefully.";
             }
 
-            return insertRecursion(current.left, book);
+            return addRecursion(current.left, book);
         }
 
         else
@@ -39,7 +41,7 @@ public class bookTree
                 return "Book with name: " + book.name + ", and ID: " + book.id + " was added succefully.";
             }
 
-            return insertRecursion(current.right, book);
+            return addRecursion(current.right, book);
         }
     }
 
@@ -93,14 +95,15 @@ public class bookTree
         }
     }
 
-    public boolean delete(int id)
+    public boolean delete(book b, int num)
     {
-        String found = search(id);
+        String found = search(b.id);
         if (found.startsWith("There"))
         {
             return false;
         }
-        root = deleteRecursion(root, id);
+        root = deleteRecursion(root, b.id);
+        b.count -= num;
         return true;
     }
 
@@ -152,4 +155,6 @@ public class bookTree
     {
         return node.left == null ? node : findSmallest(node.left);
     }
+
+
 }

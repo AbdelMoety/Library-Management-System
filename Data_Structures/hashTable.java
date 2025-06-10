@@ -65,20 +65,36 @@ public class hashTable
             studentNode temp = table[i];
             while(temp != null)
             {
-                System.out.println("ID: " + temp.user.id + ", Name: " + temp.user.name);
+                System.out.println("ID: " + temp.user.id + ", Name: " + temp.user.name + ", Year: " + temp.user.year);
                 temp = temp.next;
             }
         }
     }
 
+        public boolean canBorrow(Student b)
+    {
+        if (b.borrowcount< Student.maxBorrow)
+        { return true; }
+        else
+        { return false; }    
+    }
+
+
+
+
+
+
+
+
+
     public static void main(String[] args)
     {
         hashTable h = new hashTable();
-        Student u1 = new Student("Ahmed", 103);
-        Student u2 = new Student("Ali", 113);
-        Student u3 = new Student("Mahmoud", 109);
-        Student u4 = new Student("Mohammed", 101);
-        Student u5 = new Student("Noah", 112);
+        Student u1 = new Student("Ahmed", 103, 4);
+        Student u2 = new Student("Ali", 113, 1);
+        Student u3 = new Student("Mahmoud", 109, 4);
+        Student u4 = new Student("Mohammed", 101,3);
+        Student u5 = new Student("Noah", 112,2);
 
         h.addUser(u1);
         h.addUser(u2);

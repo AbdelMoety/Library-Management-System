@@ -1,13 +1,13 @@
 // queue for the waiting list for books that are already borrowed
 public class queue
 {
-    Node head;
-    Node tail;
+    studentNode head;
+    studentNode tail;
     int length;
     
-    public String Enqueue(String name)
+    public String Enqueue(Student s)
     {
-        Node N = new Node(name);
+        studentNode N = new studentNode(s);
         
         if (isEmpty())
         {
@@ -21,7 +21,7 @@ public class queue
             tail = N;
         }
         length++;
-        return (name + " has been added to the waiting list!");
+        return (s.name + " has been added to the waiting list!");
     }
 
     public String giveBook(int id)
@@ -31,7 +31,7 @@ public class queue
             return "There is no students in the waiting list!";
         }
 
-        String student = head.name;
+        String student = head.user.name;
         head = head.next;
         length--;
         return ("Book " + id + " has been given to " + student);
@@ -44,38 +44,38 @@ public class queue
             return ("None");
         }
         
-        return (head.name);
+        return (head.user.name);
     }
 
-    public String removeStudent(String name)
+    public String removeStudent(int id)
     {
         if (isEmpty())
         {
             return ("There is no students waiting!");
         }
 
-        if (head.name.equalsIgnoreCase(name))
+        if (head.user.id == id)
         {
             head = head.next;
             length--;
-            return (name + " has been removed from the waiting list!");
+            return (head.user.name + " has been removed from the waiting list!");
         }
     
     
-        Node temp = head.next;
+        studentNode temp = head.next;
         while (temp.next != null)
         {
-            if (temp.next.name.equalsIgnoreCase(name))
+            if (temp.user.id == id)
             {
                 temp.next = temp.next.next;
                 length--;
-                return (name + " has been removed from the waiting list!");
+                return (temp.user.name + " has been removed from the waiting list!");
             }
 
             temp = temp.next;
         }
 
-        return (name + " is not found in the waiting list!");
+        return (temp.user.name + " is not found in the waiting list!");
     }
 
     public boolean isEmpty()
@@ -96,10 +96,10 @@ public class queue
             return;
         }
         
-        Node temp = head;
+        studentNode temp = head;
         while(temp != null)
         {
-            System.out.println(temp.name);
+            System.out.println(temp.user.name);
             temp = temp.next;
         }
     }

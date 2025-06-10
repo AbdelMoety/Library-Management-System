@@ -1,13 +1,13 @@
 // LL for storing the borrow history of every student
 public class LL
 {
-    Node head;
-    Node tail;
+    bookNode head;
+    bookNode tail;
     int length = 0;
 
-    public void append(String name)
+    public void append(book b)
     {
-        Node N = new Node(name);
+        bookNode N = new bookNode(b);
         if (length == 0)
         {
             head = N;
@@ -22,6 +22,20 @@ public class LL
         length++;
     }
 
+    public boolean exists(book b)
+    {
+        bookNode temp = head;
+        while (temp != null)
+        {
+            if (temp.book == b)
+            {
+                return true;
+            }
+            temp = temp.next;
+        }
+        return false;
+    }
+
     public String get(int index)
     {
         index--;
@@ -32,12 +46,12 @@ public class LL
            return "Value at index " + (index + 1) + " is: null";
         }
 
-        Node temp = head;
+        bookNode temp = head;
         for (int i = 0; i < index; i++)
         {
             temp = temp.next;
         }
-        return temp.name;
+        return temp.book.name;
     }
 
     public void remove_first()
@@ -84,7 +98,7 @@ public class LL
         
         else
         {
-            Node temp = head;
+            bookNode temp = head;
             for (int i = 0; i < index - 1; i++)
             {
                 temp = temp.next;
@@ -103,7 +117,7 @@ public class LL
 
         else
         {
-            Node temp = head;
+            bookNode temp = head;
             while(temp.next.next != null)
             {
                 temp = temp.next;
@@ -116,12 +130,24 @@ public class LL
 
     public void display()
     {
-        Node temp = head;
+        bookNode temp = head;
         while (temp != null)
         {
-            System.out.print(temp.name + " -> ");
+            System.out.print(temp.book.name + " -> ");
             temp = temp.next;
         }
         System.out.println("null");
+    }
+
+    public static void main( String args[])
+    {
+        LL l = new LL();
+        book b1 = new book(110, null, null, 2);
+        book b2 = new book(050, null, null, 2);
+        book b3 = new book(30, null, null, 2);
+        l.append(b1);
+       
+        l.append(b3);
+        System.out.println(l.exists(b2));
     }
 }
