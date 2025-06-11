@@ -1,4 +1,9 @@
+package Data_Structures;
 // stack for storing admin operations so we can undo them
+
+import models.adminAction;
+import models.sNode;
+
 public class undoStack
 {
     private sNode top;

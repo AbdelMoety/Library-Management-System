@@ -1,4 +1,9 @@
+package Data_Structures;
 // LL for storing the borrow history of every student
+
+import models.book;
+import models.bookNode;
+
 public class LL
 {
     bookNode head;

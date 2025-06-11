@@ -1,4 +1,9 @@
+package Data_Structures;
 // BST containing books sorted by id
+
+import models.book;
+import models.tNode;
+
 public class bookTree
 {
     private tNode root;

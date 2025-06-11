@@ -1,4 +1,8 @@
 // class for students containing every student's info
+package models;
+
+import Data_Structures.LL;
+
 public class Student
 {
     public String name;
@@ -8,7 +12,7 @@ public class Student
     public int borrowcount;
     public static int maxBorrow= 3;
 
-    Student(String name, int id, int year)
+    public Student(String name, int id, int year)
     {
         this.name = name;
         this.id = id;

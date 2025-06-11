@@ -1,4 +1,9 @@
+package Data_Structures;
 // queue for the waiting list for books that are already borrowed
+
+import models.Student;
+import models.studentNode;
+
 public class queue
 {
     studentNode head;

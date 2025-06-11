@@ -1,4 +1,9 @@
+package Data_Structures;
 // hash table for storing students providing O(1) average case for searching
+
+import models.Student;
+import models.studentNode;
+
 public class hashTable
 {
     private static final int size = 10;

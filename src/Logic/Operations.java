@@ -1,4 +1,11 @@
+package Logic;
+
 import java.util.Random;
+import models.Student;
+import models.book;
+
+
+import Main.start;
 
 public class Operations {
     //this class will contain methods to handle borrowing requests from studnets
@@ -49,20 +56,20 @@ public class Operations {
     
     private int generateID(int year)
     {
-        int num = random.nextInt(100, 999) ;
+        int num = random.nextInt(100, 999);
         String id = String.valueOf(year) + String.valueOf(num);
         return Integer.parseInt(id);
-
-
     }
 
     public int newStudent(String name, int year)
     {
         int id = generateID(year);
+        while(start.studentTables[year - 1].getUser(id).startsWith("Name"))
+        {
+            id = generateID(year);
+        }
         Student s = new Student(name, id, year);
-        hashTable HT = new hashTable();
-        HT.addUser(s);
+        start.studentTables[year - 1].addUser(s);
         return id;
     }
-    
 }

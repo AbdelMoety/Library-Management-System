@@ -1,6 +1,8 @@
-public class bookNode {
-    book book;
-    bookNode next;
+package models;
+public class bookNode
+{
+    public book book;
+    public bookNode next;
 
     public bookNode(book b)
     {

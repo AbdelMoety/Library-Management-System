@@ -1,11 +1,12 @@
 // BST node
+package models;
 public class tNode
 {
-    book book;
-    tNode left;
-    tNode right;
+    public book book;
+    public tNode left;
+    public tNode right;
 
-    tNode(book book)
+    public tNode(book book)
     {
         this.book = book;
         this.left = null;
