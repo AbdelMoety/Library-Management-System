@@ -1,0 +1,18 @@
+
+package models;
+
+import java.time.LocalDate;
+
+public class borrowedBook {
+    public String bookName;
+    public int bookId;
+    public LocalDate borrowDate;
+    public LocalDate dueDate;
+
+    public borrowedBook(String bookName, int bookId) {
+        this.bookName = bookName;
+        this.bookId = bookId;
+        this.borrowDate = LocalDate.now();
+        this.dueDate = borrowDate.plusDays(15);
+    }
+}
