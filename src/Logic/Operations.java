@@ -20,7 +20,7 @@ public class Operations {
         }
 
         if (b.count > 0) {
-            s.addToHistory(b.name); // سجل استعارة الكتاب
+            s.addToHistory(b.name);
             b.count--;
             return "Borrowed successfully.";
         } else {
@@ -30,7 +30,7 @@ public class Operations {
     }
 
     public String returnBook(Student s, book b) {
-        // نرجعه لو موجود في الهيستوري
+
         for (int i = 0; i < s.history.size(); i++) {
             if (s.history.get(i).title.equals(b.name)) {
                 s.returnBook(b.name);
