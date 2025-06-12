@@ -1,71 +1,55 @@
 package Logic;
 
 import java.util.Random;
+
 import models.Student;
 import models.book;
-
-
+import models.borrowedBook;
 import Main.start;
 
 public class Operations {
-    //this class will contain methods to handle borrowing requests from studnets
-    //the input is entered by admin
-    Random random= new Random();
+    Random random = new Random();
 
-    public String borrow(Student s, book b )
-    {
-        if (s.borrowcount< 3 && b.isAvailble ) //checks that student didnt exceed borrowing limit and book is available
-        {
-            if (b.count != 0) //add the book to the students list and subtract the count
-            {
-                s.borrowHistory.append(b); // call the add to history method(from Sohaila)
-                b.count--;
-                s.borrowcount++;
-                return "Borrowed successfully";
-            }
-            else  // add the student to the waiting list
-            {
-                b.waitingList.Enqueue(s);
-                return "The book is out of stock, the student is added to the waiting list";
-            }
+    public String borrow(Student s, book b) {
+        if (s.borrowcount >= Student.maxBorrow) {
+            return "This student reached maximum borrowing count.";
         }
 
-        if (!b.isAvailble)
-        {
-            return "We dont have this book";
+        if (!b.isAvailble) {
+            return "We don't have this book.";
         }
-        
-        if (s.borrowcount>= 3)
-        {
-            return "This student reached maximum borrowing count";
+
+        if (b.count > 0) {
+            s.addToHistory(b.name);
+            b.count--;
+            return "Borrowed successfully.";
+        } else {
+            b.waitingList.Enqueue(s);
+            return "The book is out of stock, student added to waiting list.";
         }
-        return null;
-        
     }
 
-    public String returnBook(Student s, book b)
-    {
-        if (s.borrowHistory.exists(b))
-        {
-            s.borrowcount--;
-            b.count++;
-            return "Book returned successfully";
+    public String returnBook(Student s, book b) {
+
+        for (int i = 0; i < s.history.size(); i++) {
+            if (s.history.get(i).title.equals(b.name)) {
+                s.returnBook(b.name);
+                b.count++;
+                return "Book returned successfully.";
+            }
         }
-        return "This is not right,he is an imposter, RUN!!";
+        return "This student doesn't have this book.";
     }
-    
-    private int generateID(int year)
-    {
+
+    private int generateID(int year) {
         int num = random.nextInt(100, 999);
         String id = String.valueOf(year) + String.valueOf(num);
         return Integer.parseInt(id);
     }
 
-    public int newStudent(String name, int year)
-    {
+    public int newStudent(String name, int year) {
         int id = generateID(year);
-        while(start.studentTables[year - 1].getUser(id).startsWith("Name"))
-        {
+        while (start.studentTables[year - 1].getUser(id).startsWith("Name")) {
             id = generateID(year);
         }
         Student s = new Student(name, id, year);
