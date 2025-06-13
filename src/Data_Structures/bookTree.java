@@ -50,21 +50,21 @@ public class bookTree
         }
     }
 
-    public String search(int id)
+    public book search(int id)
     {
         return searchRecursion(root, id);
     }
 
-    private String searchRecursion(tNode current, int id)
+    private book searchRecursion(tNode current, int id)
     {
         if(current == null)
         {
-            return "There is no books in the library with this id.";
+            return null;
         }
         
         if(current.book.id == id)
         {
-            return "Name: " + current.book.name + ", ID: " + current.book.id + ", Author: " + current.book.author;
+            return current.book;
         }
 
         if(current.book.id > id)
@@ -102,8 +102,8 @@ public class bookTree
 
     public boolean delete(book b, int num)
     {
-        String found = search(b.id);
-        if (found.startsWith("There"))
+        book found = search(b.id);
+        if (found == null)
         {
             return false;
         }

@@ -9,7 +9,7 @@ public class start
 {
     public static final int NUM_YEARS = 5;
     public static hashTable[] studentTables = new hashTable[NUM_YEARS];
-    public static bookTree bookTree = new bookTree();
+    public static bookTree bookTree1 = new bookTree();
     public static undoStack undoStack = new undoStack();
     public static queue q = new queue();
     public static LL l = new LL();
@@ -22,7 +22,8 @@ public class start
         }
     }
 
-    private start() {
+    private start()
+    {
         // Private constructor to prevent instantiation
     }
 }

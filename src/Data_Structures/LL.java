@@ -1,18 +1,20 @@
 package Data_Structures;
 // LL for storing the borrow history of every student
 
-import models.book;
-import models.bookNode;
+import java.time.LocalDate;
+
+import models.borrowedBook;
+import models.borrowedBookNode;
 
 public class LL
 {
-    bookNode head;
-    bookNode tail;
-    int length = 0;
+    borrowedBookNode head;
+    borrowedBookNode tail;
+    public int length = 0;
 
-    public void append(book b)
+    public void append(borrowedBook b)
     {
-        bookNode N = new bookNode(b);
+        borrowedBookNode N = new borrowedBookNode(b);
         if (length == 0)
         {
             head = N;
@@ -27,12 +29,12 @@ public class LL
         length++;
     }
 
-    public boolean exists(book b)
+    public boolean exists(borrowedBook b)
     {
-        bookNode temp = head;
+        borrowedBookNode temp = head;
         while (temp != null)
         {
-            if (temp.book == b)
+            if (temp.borrowedBook == b)
             {
                 return true;
             }
@@ -51,12 +53,28 @@ public class LL
            return "Value at index " + (index + 1) + " is: null";
         }
 
-        bookNode temp = head;
+        borrowedBookNode temp = head;
         for (int i = 0; i < index; i++)
         {
             temp = temp.next;
         }
-        return temp.book.name;
+        return temp.borrowedBook.name;
+    }
+
+    public borrowedBook getBB(int index)
+    {
+        index--;
+        if (index < 0 || index >= length)
+        {
+           return null;
+        }
+
+        borrowedBookNode temp = head;
+        for (int i = 0; i < index; i++)
+        {
+            temp = temp.next;
+        }
+        return temp.borrowedBook;
     }
 
     public void remove_first()
@@ -103,7 +121,7 @@ public class LL
         
         else
         {
-            bookNode temp = head;
+            borrowedBookNode temp = head;
             for (int i = 0; i < index - 1; i++)
             {
                 temp = temp.next;
@@ -122,7 +140,7 @@ public class LL
 
         else
         {
-            bookNode temp = head;
+            borrowedBookNode temp = head;
             while(temp.next.next != null)
             {
                 temp = temp.next;
@@ -135,24 +153,26 @@ public class LL
 
     public void display()
     {
-        bookNode temp = head;
+        borrowedBookNode temp = head;
         while (temp != null)
         {
-            System.out.print(temp.book.name + " -> ");
+            System.out.print(temp.borrowedBook.name + " -> ");
             temp = temp.next;
         }
         System.out.println("null");
     }
 
-    public static void main( String args[])
+    public boolean is_Empty()
     {
+        return length == 0;
+    }
+
+    public static void main(String[] args) {
         LL l = new LL();
-        book b1 = new book(110, null, null, 2);
-        book b2 = new book(050, null, null, 2);
-        book b3 = new book(30, null, null, 2);
-        l.append(b1);
-       
-        l.append(b3);
-        System.out.println(l.exists(b2));
+        borrowedBook b = new borrowedBook("high", 100, LocalDate.now());
+        borrowedBook k = new borrowedBook("high", 100, LocalDate.now());
+        l.append(b);
+        l.append(k);
+        System.out.println(b);
     }
 }
