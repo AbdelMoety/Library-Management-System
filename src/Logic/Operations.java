@@ -5,6 +5,7 @@ import java.util.Random;
 import models.Student;
 import models.book;
 import models.borrowedBook;
+import models.borrowedBookNode;
 import Main.start;
 
 public class Operations
@@ -73,21 +74,17 @@ public class Operations
         return "Days left: " + String.valueOf(b.getDaysLeft());
     }
 
-    public void showHistory(Student s)
+    public borrowedBook[] showHistory(Student s)
     {
-        if (s.borrowHistory.is_Empty())
+        borrowedBookNode temp = s.borrowHistory.head;
+        borrowedBook[] borrowHis = new borrowedBook[s.borrowHistory.length];
+        for (int i=0; i<s.borrowHistory.length; i++)
         {
-            System.out.println("No borrow history.");
-            return;
+            borrowHis[i] = temp.borrowedBook;
+            temp = temp.next;
         }
+        return borrowHis;
 
-        for (int i = 0; i < s.borrowHistory.length; i++)
-        {
-            System.out.println("Title: " + s.borrowHistory.getBB(i).name);
-            System.out.println("Borrowed on: " + s.borrowHistory.getBB(i).borrowDate);
-            System.out.println("Due on: " + s.borrowHistory.getBB(i).dueDate);
-            System.out.println("Days left: " + s.borrowHistory.getBB(i).getDaysLeft());
-            System.out.println("------");
-        }
+        
     }
 }

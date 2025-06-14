@@ -1,22 +1,27 @@
 package Data_Structures;
 // BST containing books sorted by id
 
+import java.util.ArrayList;
+import java.util.List;
+
 import models.book;
 import models.tNode;
 
 public class bookTree
 {
     public tNode root;
+    public int counter =0;
 
     public String add(book book)
     {
         if(root == null)
         {
             root = new tNode(book);
+            this.counter++;
+            System.out.println(book.count);
             return "Book with name: " + book.name + ",and ID: " + book.id + " was added succefully.";
         }
         
-        book.isAvailble = true;
         return addRecursion(root, book);
     }
 
@@ -24,7 +29,7 @@ public class bookTree
     {
         if(book.id == current.book.id)
         {
-            current.book.count += book.count;
+            
             return book.count + " Books with name: " + book.name + ",and ID: " + book.id + "were added succefully." ;
         }
         
@@ -44,6 +49,7 @@ public class bookTree
             if(current.right == null)
             {
                 current.right = new tNode(book);
+                book.isAvailble = true;
                 return "Book with name: " + book.name + ", and ID: " + book.id + " was added succefully.";
             }
 
@@ -76,15 +82,20 @@ public class bookTree
         return searchRecursion(current.right, id);
     }
 
-    public void showBooks(tNode current)
-    {
-        if(current != null)
-        {
-            showBooks(current.left);
-            System.out.println("Book name: " + current.book.name + ", ID: " + current.book.id + ", Author: " + current.book.author);
-            showBooks(current.right);
-        }
+    public book[] showBooks(tNode current) {
+        List<book> bookList = new ArrayList<>();
+        traverseBooks(current, bookList);
+        return bookList.toArray(new book[0]); // convert list to array
     }
+
+    private void traverseBooks(tNode current, List<book> bookList) {
+        if (current == null) return;
+
+        traverseBooks(current.left, bookList);
+        bookList.add(current.book);
+        traverseBooks(current.right, bookList);
+    }
+
 
     public void showSameAuthor(tNode current, String author)
     {
@@ -99,6 +110,21 @@ public class bookTree
 
             showSameAuthor(current.right, author);
         }
+    }
+
+    public boolean deleteCount(book b, int num)
+    {
+        if (b.count< num)
+        {
+            return false;
+        }
+        book found = search(b.id);
+        if (found == null)
+        {
+            return false;
+        }
+        b.count -= num;
+        return true;
     }
 
     public boolean delete(book b, int num)
@@ -165,6 +191,9 @@ public class bookTree
     {
         return node.left == null ? node : findSmallest(node.left);
     }
+
+
+    
 
 
 }

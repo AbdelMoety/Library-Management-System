@@ -14,7 +14,7 @@ public class start
     public static final int numAdmins =3 ;
     public static hashTable[] studentTables = new hashTable[NUM_YEARS];
     public static bookTree bookTree1 = new bookTree();
-    public static undoStack undoStack = new undoStack();
+    public static undoStack undoStack1 = new undoStack();
     public static queue q = new queue();
     public static LL l = new LL();
      

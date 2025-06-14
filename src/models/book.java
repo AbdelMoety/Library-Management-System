@@ -8,7 +8,7 @@ public class book
     public String author;
     public int count;
     public boolean isAvailble = false;
-    public queue waitingList;
+    public queue waitingList = new queue();
 
     public book(int id, String name, String author, int count)
     {
@@ -16,6 +16,7 @@ public class book
         this.name = name;
         this.author = author;
         this.count = count;
+        
     }
 
 }

@@ -24,8 +24,24 @@ public class adminOperations
      
     public static boolean addBook(int id, String name, String author, int count) 
     {
-        book b = new book(id, name, author, count);
-        start.undoStack.push(new adminAction("ADD", null, b));
+        book b = start.bookTree1.search(id);
+        if(b == null )
+        {
+            b = new book(id, name, author, count);
+            start.bookTree1.add(b);
+            start.undoStack1.push(new adminAction("ADD", null, b));
+    
+        }
+        else
+        {
+            book bookBefore = new book(b.id, b.name, b.author, b.count);
+            book bookAfter = new book(id, name, author, count+b.count);
+            start.undoStack1.push(new adminAction("INC", bookBefore, bookAfter));
+            b.count+= count;
+        }
+        
+        b.isAvailble= true;
+        
         return true;
     }
 
@@ -40,11 +56,11 @@ public class adminOperations
 
         // make a copy of book before del to use in undo operation
         book bookBefore = new book(targetBook.id, targetBook.name, targetBook.author, targetBook.count);
-        boolean successdel = start.bookTree1.delete(targetBook, num);
+        boolean successdel = start.bookTree1.deleteCount(targetBook, num);
         book bookAfter = new book(targetBook.id, targetBook.name, targetBook.author, targetBook.count - num);
         if (successdel)
         {
-            start.undoStack.push(new adminAction("DELETE", bookBefore, bookAfter));
+            start.undoStack1.push(new adminAction("DELETE", bookBefore, bookAfter));
             return true;
         }
         
@@ -62,35 +78,40 @@ public class adminOperations
         {
             return false;
         }
-
+        
+        book bookBefore = new book(oldID, oldBook.name, oldBook.author, oldBook.count);
         start.bookTree1.search(oldID).id = newID;
         book bookAfter = new book(newID, oldBook.name, oldBook.author, oldBook.count);
 
-        start.undoStack.push(new adminAction("MODIFY", oldBook, bookAfter));
+        start.undoStack1.push(new adminAction("MODIFY", bookBefore, bookAfter));
         return true;
     }
 
     
     public static boolean undoLastOperation() 
     {
-        if (start.undoStack.isEmpty()) return false;
+        if (start.undoStack1.isEmpty()) return false;
 
-        adminAction action = start.undoStack.pop();
+        adminAction action = start.undoStack1.pop();
 
         switch (action.actionType)
         {
+            case "INC":
+                start.bookTree1.deleteCount(action.bookAfter, action.bookAfter.count);
+                start.bookTree1.search(action.bookAfter.id).count = action.bookBefore.count;
+                return true;
+
             case "ADD":
                 start.bookTree1.delete(action.bookAfter, action.bookAfter.count);
-                return false;
+                return true;
 
-            case "DELETE":
-                action.bookAfter.count = action.bookBefore.count;  
-               
-                return false;
+            case "DELETE": 
+                start.bookTree1.search(action.bookAfter.id).count = action.bookBefore.count;
+                return true;
 
             case "MODIFY":
                 start.bookTree1.search(action.bookAfter.id).id = action.bookBefore.id;
-                return false;
+                return true;
 
             default:
                 return false;

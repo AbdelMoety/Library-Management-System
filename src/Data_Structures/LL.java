@@ -6,8 +6,8 @@ import models.borrowedBookNode;
 
 public class LL
 {
-    borrowedBookNode head;
-    borrowedBookNode tail;
+    public borrowedBookNode head;
+    public borrowedBookNode tail;
     public int length = 0;
 
     public void append(borrowedBook b)
@@ -62,7 +62,7 @@ public class LL
     public borrowedBook getBB(int id)
     {
         borrowedBookNode temp = head;
-        while (temp.next != null)
+        while (temp != null)
         {
             if (temp.borrowedBook.id == id)
             {

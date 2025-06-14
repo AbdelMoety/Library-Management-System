@@ -11,7 +11,7 @@ public class Student
     public int borrowcount;
     public static final int maxBorrow = 3;
 
-    public LL borrowHistory;
+    public LL borrowHistory = new LL();
 
     public Student(String name, int id, int year)
     {
@@ -24,7 +24,7 @@ public class Student
     public void addToHistory(book b)
     {
         borrowedBook newBook = new borrowedBook(b.name, b.id, LocalDate.now());
-        borrowHistory.append(newBook);
-        borrowcount++;
+        this.borrowHistory.append(newBook);
+        this.borrowcount++;
     }
 }
