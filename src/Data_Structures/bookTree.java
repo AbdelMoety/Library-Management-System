@@ -102,6 +102,10 @@ public class bookTree
 
     public boolean delete(book b, int num)
     {
+        if (b.count< num)
+        {
+            return false;
+        }
         book found = search(b.id);
         if (found == null)
         {
