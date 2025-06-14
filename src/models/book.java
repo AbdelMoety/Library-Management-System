@@ -10,8 +10,6 @@ public class book
     public boolean isAvailble = false;
     public queue waitingList;
 
-    
-
     public book(int id, String name, String author, int count)
     {
         this.id = id;
@@ -19,6 +17,5 @@ public class book
         this.author = author;
         this.count = count;
     }
-    
 
 }

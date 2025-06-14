@@ -1,8 +1,6 @@
 package Data_Structures;
 // LL for storing the borrow history of every student
 
-import java.time.LocalDate;
-
 import models.borrowedBook;
 import models.borrowedBookNode;
 
@@ -61,20 +59,18 @@ public class LL
         return temp.borrowedBook.name;
     }
 
-    public borrowedBook getBB(int index)
+    public borrowedBook getBB(int id)
     {
-        index--;
-        if (index < 0 || index >= length)
-        {
-           return null;
-        }
-
         borrowedBookNode temp = head;
-        for (int i = 0; i < index; i++)
+        while (temp.next != null)
         {
+            if (temp.borrowedBook.id == id)
+            {
+                return temp.borrowedBook;
+            }
             temp = temp.next;
         }
-        return temp.borrowedBook;
+        return null;
     }
 
     public void remove_first()
@@ -165,14 +161,5 @@ public class LL
     public boolean is_Empty()
     {
         return length == 0;
-    }
-
-    public static void main(String[] args) {
-        LL l = new LL();
-        borrowedBook b = new borrowedBook("high", 100, LocalDate.now());
-        borrowedBook k = new borrowedBook("high", 100, LocalDate.now());
-        l.append(b);
-        l.append(k);
-        System.out.println(b);
     }
 }

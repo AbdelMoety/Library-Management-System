@@ -11,42 +11,42 @@ public class Operations
 {
     Random random = new Random();
 
-    public String borrow(Student s, book b)
+    public static boolean borrow(Student s, book b)
     {
         if (s.borrowcount >= Student.maxBorrow)
         {
-            return "This student reached maximum borrowing count.";
+            return false;
         }
 
         if (!b.isAvailble)
         {
-            return "We don't have this book.";
+            return false;
         }
 
         if (b.count > 0)
         {
             s.addToHistory(b);
             b.count--;
-            return "Borrowed successfully.";
+            return true;
         }
         
         else
         {
             b.waitingList.Enqueue(s);
-            return "The book is out of stock, student added to waiting list.";
+            return false;
         }
     }
 
-    public String returnBook(Student s, borrowedBook bo)
+    public static boolean returnBook(Student s, borrowedBook bo)
     {
         if (s.borrowHistory.exists(bo))
         {
             book b = start.bookTree1.search(bo.id);
             s.borrowcount--;
             b.count++;
-            return "Book returned successfully";
+            return true;
         }
-        return "This is not right,he is an imposter, RUN!!";
+        return false;
     }
 
     private int generateID(int year)
@@ -59,7 +59,7 @@ public class Operations
     public int newStudent(String name, int year)
     {
         int id = generateID(year);
-        while (start.studentTables[year - 1].getUser(id).startsWith("Name"))
+        while (start.studentTables[year - 1].getUser(id) != null)
         {
             id = generateID(year);
         }
@@ -75,7 +75,8 @@ public class Operations
 
     public void showHistory(Student s)
     {
-        if (s.borrowHistory.is_Empty()) {
+        if (s.borrowHistory.is_Empty())
+        {
             System.out.println("No borrow history.");
             return;
         }

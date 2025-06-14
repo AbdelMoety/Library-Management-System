@@ -1,6 +1,7 @@
 // student node
 package models;
-public class studentNode {
+public class studentNode
+{
     public Student user;
     public studentNode next;
 

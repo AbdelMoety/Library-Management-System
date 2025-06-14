@@ -14,7 +14,7 @@ public class hashTable
         return id % size;
     }
     
-    public String addUser(Student user)
+    public boolean addUser(Student user)
     {
         int index = hash(user.id);
         studentNode N = new studentNode(user);
@@ -31,22 +31,22 @@ public class hashTable
             {
                 if (temp.user.id == user.id)
                 {
-                    return user.name + " already exists in the system.";
+                    return false;
                 }
 
                 if (temp.next == null)
                 {
                     temp.next = N;
-                    return user.name + " was added to the system.";
+                    return true;
                 }
 
                 temp = temp.next;
             }
         }
-        return user.name + " was added to the system.";
+        return true;
     }
 
-    public String getUser(int id)
+    public Student getUser(int id)
     {
         int index = hash(id);
         studentNode temp = table[index];
@@ -55,12 +55,12 @@ public class hashTable
         {
             if(temp.user.id == id)
             {
-                return "Name: " + temp.user.name + ", ID: " + temp.user.id;
+                return temp.user;
             }
             temp = temp.next;
         }
 
-        return "User with id: " + id + " doesn't exist in the system.";
+        return null;
     }
 
     public void displayUser()
@@ -82,32 +82,6 @@ public class hashTable
         { return true; }
         else
         { return false; }    
-    }
-
-
-
-
-
-
-
-
-
-    public static void main(String[] args)
-    {
-        hashTable h = new hashTable();
-        Student u1 = new Student("Ahmed", 103, 4);
-        Student u2 = new Student("Ali", 113, 1);
-        Student u3 = new Student("Mahmoud", 109, 4);
-        Student u4 = new Student("Mohammed", 101,3);
-        Student u5 = new Student("Noah", 112,2);
-
-        h.addUser(u1);
-        h.addUser(u2);
-        h.addUser(u3);
-        h.addUser(u4);
-        h.addUser(u5);
-
-        h.displayUser();
     }
 }
 

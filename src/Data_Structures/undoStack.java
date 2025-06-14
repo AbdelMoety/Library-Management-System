@@ -27,6 +27,17 @@ public class undoStack
         return action;
     }
 
+    public void displayActions()
+    {
+        sNode temp = top;
+        while (temp != null)
+        {
+            System.out.println(temp.action);
+            temp = temp.next;
+        }
+        System.out.println("null");
+    }
+
     public boolean isEmpty()
     {
         return top == null;

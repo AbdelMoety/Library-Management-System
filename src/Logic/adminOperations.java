@@ -3,88 +3,97 @@ package Logic;
 import Main.start;
 import models.book;
 import models.adminAction;
-import Data_Structures.bookTree;
 
 
 public class adminOperations 
 {
-    public static String login(int id, String password) 
+    public static boolean login(int id, String password) 
     {
         //admin temp= new admin(id, password);
         for (int i=0 ; i< start.numAdmins ; i++) 
         {
-            if (start.adminList[i].id == id && start.adminList[i].password.equals(password) ) {
-                return "Welcome " + start.adminList[i].name;
+            if (start.adminList[i].id == id && start.adminList[i].password.equals(password) )
+            {
+                return true;
             }
         }
-        return "Invalid ID or password";
+
+        return false;
     } 
 
      
-    public static String addBook(int id, String name, String author, int count) 
+    public static boolean addBook(int id, String name, String author, int count) 
     {
         book b = new book(id, name, author, count);
-        String result = start.bookTree1.add(b);
         start.undoStack.push(new adminAction("ADD", null, b));
-        return result;
+        return true;
     }
 
     
-    public static String deleteBook(int id, int num) {
+    public static boolean deleteBook(int id, int num)
+    {
         book targetBook = start.bookTree1.search(id);
-        if (targetBook == null) {
-            return "Book not found.";
+        if (targetBook == null)
+        {
+            return false;
         }
 
         // make a copy of book before del to use in undo operation
         book bookBefore = new book(targetBook.id, targetBook.name, targetBook.author, targetBook.count);
         boolean successdel = start.bookTree1.delete(targetBook, num);
         book bookAfter = new book(targetBook.id, targetBook.name, targetBook.author, targetBook.count - num);
-        if (successdel) {
+        if (successdel)
+        {
             start.undoStack.push(new adminAction("DELETE", bookBefore, bookAfter));
-            return "Book deleted successfully.";
-        } else {
-            return "Book could not be deleted.";
+            return true;
+        }
+        
+        else
+        {
+            return false;
         }
     }
 
     
-    public static String modifyBookID(int oldID, int newID) {
+    public static boolean modifyBookID(int oldID, int newID)
+    {
         book oldBook = start.bookTree1.search(oldID);
-        if (oldBook == null) {
-            return "Book with ID " + oldID + " not found.";
+        if (oldBook == null)
+        {
+            return false;
         }
 
         start.bookTree1.search(oldID).id = newID;
         book bookAfter = new book(newID, oldBook.name, oldBook.author, oldBook.count);
 
         start.undoStack.push(new adminAction("MODIFY", oldBook, bookAfter));
-        return "Book ID modified from: " + oldID + " to: " + newID;
+        return true;
     }
 
     
-    public static String undoLastOperation() 
+    public static boolean undoLastOperation() 
     {
-        if (start.undoStack.isEmpty()) return "No operations to undo.";
+        if (start.undoStack.isEmpty()) return false;
 
         adminAction action = start.undoStack.pop();
 
-        switch (action.actionType) {
+        switch (action.actionType)
+        {
             case "ADD":
                 start.bookTree1.delete(action.bookAfter, action.bookAfter.count);
-                return " Added book removed.";
+                return false;
 
             case "DELETE":
                 action.bookAfter.count = action.bookBefore.count;  
                
-                return "The deleted book is added again.";
+                return false;
 
             case "MODIFY":
                 start.bookTree1.search(action.bookAfter.id).id = action.bookBefore.id;
-                return "book is unmodified";
+                return false;
 
             default:
-                return "Unknown action.";
+                return false;
         }
     }
 }

@@ -3,7 +3,8 @@ package models;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class borrowedBook {
+public class borrowedBook
+{
     public String name;
     public int id;
     public LocalDate borrowDate;

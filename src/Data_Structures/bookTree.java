@@ -6,7 +6,7 @@ import models.tNode;
 
 public class bookTree
 {
-    private tNode root;
+    public tNode root;
 
     public String add(book book)
     {
@@ -15,6 +15,7 @@ public class bookTree
             root = new tNode(book);
             return "Book with name: " + book.name + ",and ID: " + book.id + " was added succefully.";
         }
+        
         book.isAvailble = true;
         return addRecursion(root, book);
     }
