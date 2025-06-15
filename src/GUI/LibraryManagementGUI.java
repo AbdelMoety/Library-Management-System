@@ -17,7 +17,8 @@ import models.Student;
 import models.book;
 import models.borrowedBook;
 
-public class LibraryManagementGUI extends Application {
+public class LibraryManagementGUI extends Application
+{
     
     private Stage primaryStage;
     private Scene loginScene;
@@ -26,7 +27,8 @@ public class LibraryManagementGUI extends Application {
     private Operations operations = new Operations();
     
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage)
+    {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Library Management System");
         
@@ -38,7 +40,8 @@ public class LibraryManagementGUI extends Application {
         primaryStage.show();
     }
     
-    private void createLoginScene() {
+    private void createLoginScene()
+    {
         VBox loginLayout = new VBox(20);
         loginLayout.setAlignment(Pos.CENTER);
         loginLayout.setPadding(new Insets(50));
@@ -140,7 +143,8 @@ public class LibraryManagementGUI extends Application {
         mainScene = new Scene(mainLayout, 1000, 700);
     }
     
-    private Tab createAdminOperationsTab() {
+    private Tab createAdminOperationsTab()
+    {
         Tab tab = new Tab("Admin Operations");
         
         VBox content = new VBox(20);
@@ -533,16 +537,75 @@ public class LibraryManagementGUI extends Application {
                 historyDisplay.setText("Please enter a valid student ID.");
             }
         });
-        
+
         historyBox.getChildren().addAll(new Label("Student ID:"), historyStudentIdField, showHistoryButton);
         historySection.getChildren().addAll(historyBox, historyDisplay);
+
+        // Show book waiting list Section
+        VBox waitingListSection = createSection("Show book waiting list");
+        HBox waitingListBox = new HBox(10);
+        historyBox.setAlignment(Pos.CENTER_LEFT);
+        
+        TextField waitingListBookIdField = new TextField();
+        waitingListBookIdField.setPromptText("Book ID");
+        
+        Button showWaitingListButton = createActionButton("Show waiting list");
+        TextArea WaitingListDisplay = new TextArea();
+        WaitingListDisplay.setEditable(false);
+        WaitingListDisplay.setPrefRowCount(6);
+        
+        showWaitingListButton.setOnAction(e -> {
+            try
+            {
+                int bookId = Integer.parseInt(waitingListBookIdField.getText());
+                
+                // Find book
+                book book = start.bookTree1.search(bookId);
+                
+                if (book == null)
+                {
+                    WaitingListDisplay.setText("Book not found.");
+                    return;
+                }
+                
+                if (book.waitingList.isEmpty())
+                {
+                    WaitingListDisplay.setText("No waiting list for this book.");
+                }
+                
+                else
+                {
+                    models.Student[] waitingList = operations.displayBookWaitingList(bookId);
+
+                    StringBuilder waitingListText = new StringBuilder();
+                    for (int i = 0; i < waitingList.length; i++)
+                    {
+                    waitingListText.append("Name: ").append(waitingList[i].name)
+                                .append(", ID: ").append(waitingList[i].id)
+                                .append("\n");
+                    }
+
+                    WaitingListDisplay.setText(waitingListText.toString());
+
+                }
+            }
+            
+            catch (NumberFormatException ex)
+            {
+                historyDisplay.setText("Please enter a valid student ID.");
+            }
+        });
+
+        waitingListBox.getChildren().addAll(new Label("Book ID:"), waitingListBookIdField, showWaitingListButton);
+        waitingListSection.getChildren().addAll(waitingListBox, WaitingListDisplay);
         
         ScrollPane scrollPane = new ScrollPane(content);
         scrollPane.setFitToWidth(true);
-        content.getChildren().addAll(addStudentSection, borrowSection, returnSection, historySection);
+        content.getChildren().addAll(addStudentSection, borrowSection, returnSection, historySection, waitingListSection);
         
         tab.setContent(scrollPane);
         return tab;
+
     }
     
     private VBox createSection(String title) {
@@ -566,7 +629,8 @@ public class LibraryManagementGUI extends Application {
         return button;
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         launch(args);
     }
 }

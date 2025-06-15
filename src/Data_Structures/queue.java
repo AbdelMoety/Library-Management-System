@@ -1,14 +1,16 @@
 package Data_Structures;
 // queue for the waiting list for books that are already borrowed
 
+import javax.swing.JTextArea;
+
 import models.Student;
 import models.studentNode;
 
 public class queue
 {
-    studentNode head;
-    studentNode tail;
-    int length;
+    public studentNode head;
+    public studentNode tail;
+    public int length;
     
     public String Enqueue(Student s)
     {
@@ -93,18 +95,19 @@ public class queue
         return length;
     }
     
-    public void printAll()
+    public void printAll(JTextArea area)
     {
+        area.setText(""); 
         if (isEmpty())
         {
-            System.out.println("There are no students!");
+            area.append("There are no students!\n");
             return;
         }
         
         studentNode temp = head;
         while(temp != null)
         {
-            System.out.println(temp.user.name);
+            area.append("Name: " + temp.user.name + ", ID: " + temp.user.id + "\n");
             temp = temp.next;
         }
     }

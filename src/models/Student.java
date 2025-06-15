@@ -24,7 +24,7 @@ public class Student
     public void addToHistory(book b)
     {
         borrowedBook newBook = new borrowedBook(b.name, b.id, LocalDate.now());
-        this.borrowHistory.append(newBook);
-        this.borrowcount++;
+        borrowHistory.append(newBook);
+        borrowcount++;
     }
 }

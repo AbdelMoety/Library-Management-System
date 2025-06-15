@@ -16,7 +16,11 @@ public class book
         this.name = name;
         this.author = author;
         this.count = count;
-        
+    }
+
+    public queue getWaitingList()
+    {
+        return waitingList;
     }
 
 }

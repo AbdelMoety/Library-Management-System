@@ -6,6 +6,7 @@ import models.Student;
 import models.book;
 import models.borrowedBook;
 import models.borrowedBookNode;
+import models.studentNode;
 import Main.start;
 
 public class Operations
@@ -78,13 +79,24 @@ public class Operations
     {
         borrowedBookNode temp = s.borrowHistory.head;
         borrowedBook[] borrowHis = new borrowedBook[s.borrowHistory.length];
-        for (int i=0; i<s.borrowHistory.length; i++)
+        for (int i=0; i < s.borrowHistory.length; i++)
         {
             borrowHis[i] = temp.borrowedBook;
             temp = temp.next;
         }
         return borrowHis;
+    }
 
-        
+    public Student[] displayBookWaitingList(int bookId)
+    {
+        book foundBook = start.bookTree1.search(bookId);
+        studentNode temp = foundBook.waitingList.head;
+        Student[] waitingList = new Student[foundBook.waitingList.length];
+        for (int i = 0; i < foundBook.waitingList.length; i++)
+        {
+            waitingList[i] = temp.user;
+            temp = temp.next;
+        }
+        return waitingList;
     }
 }
