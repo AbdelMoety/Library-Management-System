@@ -6,13 +6,29 @@ import models.borrowedBookNode;
 
 public class LL
 {
-    public borrowedBookNode head;
-    public borrowedBookNode tail;
-    public int length = 0;
+    private borrowedBookNode head;
+    private borrowedBookNode tail;
+    private int length = 0;
+
+    public borrowedBookNode getHead()
+    {
+        return head;
+    }
+    
+    public borrowedBookNode getTail()
+    {
+        return tail;
+    }
+
+    public int getLength()
+    {
+        return length;
+    }
 
     public void append(borrowedBook b)
     {
         borrowedBookNode N = new borrowedBookNode(b);
+        
         if (length == 0)
         {
             head = N;
@@ -21,9 +37,10 @@ public class LL
 
         else
         {
-            tail.next = N;
+            tail.setNext(N);
             tail = N;
         }
+        
         length++;
     }
 
@@ -32,11 +49,11 @@ public class LL
         borrowedBookNode temp = head;
         while (temp != null)
         {
-            if (temp.borrowedBook == b)
+            if (temp.getBorrowedBook() == b)
             {
                 return true;
             }
-            temp = temp.next;
+            temp = temp.getNext();
         }
         return false;
     }
@@ -54,9 +71,9 @@ public class LL
         borrowedBookNode temp = head;
         for (int i = 0; i < index; i++)
         {
-            temp = temp.next;
+            temp = temp.getNext();
         }
-        return temp.borrowedBook.name;
+        return temp.getBorrowedBook().getName();
     }
 
     public borrowedBook getBB(int id)
@@ -64,11 +81,11 @@ public class LL
         borrowedBookNode temp = head;
         while (temp != null)
         {
-            if (temp.borrowedBook.id == id)
+            if (temp.getBorrowedBook().getId() == id)
             {
-                return temp.borrowedBook;
+                return temp.getBorrowedBook();
             }
-            temp = temp.next;
+            temp = temp.getNext();
         }
         return null;
     }
@@ -89,7 +106,7 @@ public class LL
 
         else
         {
-            head = head.next;
+            head = head.getNext();
             length--;
         }
     }
@@ -120,9 +137,9 @@ public class LL
             borrowedBookNode temp = head;
             for (int i = 0; i < index - 1; i++)
             {
-                temp = temp.next;
+                temp = temp.getNext();
             }
-            temp.next = temp.next.next;
+            temp.setNext(temp.getNext().getNext());
             length--;
         }
     }
@@ -137,25 +154,16 @@ public class LL
         else
         {
             borrowedBookNode temp = head;
-            while(temp.next.next != null)
+            while(temp.getNext().getNext() != null)
             {
-                temp = temp.next;
+                temp = temp.getNext();
             }
-            temp.next = null;
+            
+            temp.setNext(null);
             tail = temp;
         }
+        
         length--;
-    }
-
-    public void display()
-    {
-        borrowedBookNode temp = head;
-        while (temp != null)
-        {
-            System.out.print(temp.borrowedBook.name + " -> ");
-            temp = temp.next;
-        }
-        System.out.println("null");
     }
 
     public boolean is_Empty()

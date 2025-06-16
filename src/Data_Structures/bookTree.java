@@ -1,5 +1,5 @@
 package Data_Structures;
-// BST containing books sorted by id
+// BST containing books sorted by ID
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,17 +9,22 @@ import models.tNode;
 
 public class bookTree
 {
-    public tNode root;
-    public int counter =0;
+    private tNode root;
+    private int counter = 0;
 
+    public tNode getRoot()
+    {
+        return root;
+    }
+    
     public String add(book book)
     {
         if(root == null)
         {
             root = new tNode(book);
-            this.counter++;
-            System.out.println(book.count);
-            return "Book with name: " + book.name + ",and ID: " + book.id + " was added succefully.";
+            counter = counter +1;
+            System.out.println(book.getCount());
+            return "Book with name: " + book.getName() + ", and ID: " + book.getId() + " was added succefully.";
         }
         
         return addRecursion(root, book);
@@ -27,33 +32,33 @@ public class bookTree
 
     private String addRecursion(tNode current, book book)
     {
-        if(book.id == current.book.id)
+        if(book.getId() == current.getBook().getId())
         {
             
-            return book.count + " Books with name: " + book.name + ",and ID: " + book.id + "were added succefully." ;
+            return book.getCount() + " Books with name: " + book.getName() + ", and ID: " + book.getId() + " were added succefully." ;
         }
         
-        else if(book.id < current.book.id)
+        else if(book.getId() < current.getBook().getId())
         {
-            if(current.left == null)
+            if(current.getLeft() == null)
             {
-                current.left = new tNode(book);
-                return "Book with name: " + book.name + ",and ID: " + book.id + " was added succefully.";
+                current.setLeft(new tNode(book));
+                return "Book with name: " + book.getName() + ",and ID: " + book.getId() + " was added succefully.";
             }
 
-            return addRecursion(current.left, book);
+            return addRecursion(current.getLeft(), book);
         }
 
         else
         {
-            if(current.right == null)
+            if(current.getRight() == null)
             {
-                current.right = new tNode(book);
-                book.isAvailble = true;
-                return "Book with name: " + book.name + ", and ID: " + book.id + " was added succefully.";
+                current.setRight(new tNode(book));
+                book.setIsAvailable(true);
+                return "Book with name: " + book.getName() + ", and ID: " + book.getId() + " was added succefully.";
             }
 
-            return addRecursion(current.right, book);
+            return addRecursion(current.getRight(), book);
         }
     }
 
@@ -69,31 +74,33 @@ public class bookTree
             return null;
         }
         
-        if(current.book.id == id)
+        if(current.getBook().getId() == id)
         {
-            return current.book;
+            return current.getBook();
         }
 
-        if(current.book.id > id)
+        if(current.getBook().getId() > id)
         {
-            return searchRecursion(current.left, id);
+            return searchRecursion(current.getLeft(), id);
         }
 
-        return searchRecursion(current.right, id);
+        return searchRecursion(current.getRight(), id);
     }
 
-    public book[] showBooks(tNode current) {
+    public book[] showBooks(tNode current)
+    {
         List<book> bookList = new ArrayList<>();
         traverseBooks(current, bookList);
-        return bookList.toArray(new book[0]); // convert list to array
+        return bookList.toArray(new book[0]);
     }
 
-    private void traverseBooks(tNode current, List<book> bookList) {
+    private void traverseBooks(tNode current, List<book> bookList)
+    {
         if (current == null) return;
 
-        traverseBooks(current.left, bookList);
-        bookList.add(current.book);
-        traverseBooks(current.right, bookList);
+        traverseBooks(current.getLeft(), bookList);
+        bookList.add(current.getBook());
+        traverseBooks(current.getRight(), bookList);
     }
 
 
@@ -101,45 +108,51 @@ public class bookTree
     {
         if(current != null)
         {
-            showSameAuthor(current.left, author);
+            showSameAuthor(current.getLeft(), author);
 
-            if (author.equalsIgnoreCase(current.book.author))
+            if (author.equalsIgnoreCase(current.getBook().getAuthor()))
             {
-                System.out.println("Book name: " + current.book.name + ", ID: " + current.book.id + ", Author: " + current.book.author);
+                System.out.println("Book name: " + current.getBook().getName() + ", ID: " + current.getBook().getId() + ", Author: " + current.getBook().getAuthor());
             }
 
-            showSameAuthor(current.right, author);
+            showSameAuthor(current.getRight(), author);
         }
     }
 
     public boolean deleteCount(book b, int num)
     {
-        if (b.count< num)
+        if (b.getCount() < num)
         {
             return false;
         }
-        book found = search(b.id);
+
+        book found = search(b.getId());
+
         if (found == null)
         {
             return false;
         }
-        b.count -= num;
+
+        b.setCount(b.getCount() - num);
         return true;
     }
 
     public boolean delete(book b, int num)
     {
-        if (b.count< num)
+        if (b.getCount() < num)
         {
             return false;
         }
-        book found = search(b.id);
+
+        book found = search(b.getId());
+
         if (found == null)
         {
             return false;
         }
-        root = deleteRecursion(root, b.id);
-        b.count -= num;
+
+        root = deleteRecursion(root, b.getId());
+        b.setCount(b.getCount() - num);
         return true;
     }
 
@@ -150,38 +163,38 @@ public class bookTree
             return null;
         }
 
-        if (id < current.book.id)
+        if (id < current.getBook().getId())
         {
-            current.left = deleteRecursion(current.left, id);
+            current.setLeft(deleteRecursion(current.getLeft(), id));
         }
         
-        else if (id > current.book.id)
+        else if (id > current.getBook().getId())
         {
-            current.right = deleteRecursion(current.right, id);
+            current.setRight(deleteRecursion(current.getRight(), id));
         }
         
         else
         {
-            if (current.left == null && current.right == null)
+            if (current.getLeft() == null && current.getRight() == null)
             {
                 return null;
             }
             
-            else if (current.left == null)
+            else if (current.getLeft() == null)
             {
-                return current.right;
+                return current.getRight();
             }
             
-            else if (current.right == null)
+            else if (current.getRight() == null)
             {
-                return current.left;
+                return current.getLeft();
             }
             
             else
             {
-                tNode smallest = findSmallest(current.right);
-                current.book = smallest.book;
-                current.right = deleteRecursion(current.right, smallest.book.id);
+                tNode smallest = findSmallest(current.getRight());
+                current.setBook(smallest.getBook());
+                current.setRight(deleteRecursion(current.getRight(), smallest.getBook().getId()));
             }
         }
         return current;
@@ -189,11 +202,6 @@ public class bookTree
 
     private tNode findSmallest(tNode node)
     {
-        return node.left == null ? node : findSmallest(node.left);
+        return node.getLeft() == null ? node : findSmallest(node.getLeft());
     }
-
-
-    
-
-
 }

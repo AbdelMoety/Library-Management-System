@@ -16,7 +16,7 @@ public class hashTable
     
     public boolean addUser(Student user)
     {
-        int index = hash(user.id);
+        int index = hash(user.getId());
         studentNode N = new studentNode(user);
 
         if(table[index] == null)
@@ -29,18 +29,18 @@ public class hashTable
             studentNode temp = table[index];
             while (true)
             {
-                if (temp.user.id == user.id)
+                if (temp.getStudent().getId() == user.getId())
                 {
                     return false;
                 }
 
-                if (temp.next == null)
+                if (temp.getNext() == null)
                 {
-                    temp.next = N;
+                    temp.setNext(N);
                     return true;
                 }
 
-                temp = temp.next;
+                temp = temp.getNext();
             }
         }
         return true;
@@ -53,11 +53,11 @@ public class hashTable
 
         while(temp != null)
         {
-            if(temp.user.id == id)
+            if(temp.getStudent().getId() == id)
             {
-                return temp.user;
+                return temp.getStudent();
             }
-            temp = temp.next;
+            temp = temp.getNext();
         }
 
         return null;
@@ -70,18 +70,10 @@ public class hashTable
             studentNode temp = table[i];
             while(temp != null)
             {
-                System.out.println("ID: " + temp.user.id + ", Name: " + temp.user.name + ", Year: " + temp.user.year);
-                temp = temp.next;
+                System.out.println("ID: " + temp.getStudent().getId() + ", Name: " + temp.getStudent().getName() + ", Year: " + temp.getStudent().getYear());
+                temp = temp.getNext();
             }
         }
-    }
-
-        public boolean canBorrow(Student b)
-    {
-        if (b.borrowcount< Student.maxBorrow)
-        { return true; }
-        else
-        { return false; }    
     }
 }
 

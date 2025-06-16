@@ -15,37 +15,37 @@ public class Operations
 
     public static boolean borrow(Student s, book b)
     {
-        if (s.borrowcount >= Student.maxBorrow)
+        if (s.canBorrow())
         {
             return false;
         }
 
-        if (!b.isAvailble)
+        if (!b.getIsAvailable())
         {
             return false;
         }
 
-        if (b.count > 0)
+        if (b.doesExist())
         {
             s.addToHistory(b);
-            b.count--;
+            b.setCount(b.getCount() - 1);
             return true;
         }
         
         else
         {
-            b.waitingList.Enqueue(s);
+            b.getWaitingList().Enqueue(s);
             return false;
         }
     }
 
     public static boolean returnBook(Student s, borrowedBook bo)
     {
-        if (s.borrowHistory.exists(bo))
+        if (s.getBorrowHistory().exists(bo))
         {
-            book b = start.bookTree1.search(bo.id);
-            s.borrowcount--;
-            b.count++;
+            book b = start.getBookTree().search(bo.getId());
+            s.setBorrowCount(s.getBorrowCount() - 1);
+            b.setCount(b.getCount() + 1);
             return true;
         }
         return false;
@@ -61,12 +61,14 @@ public class Operations
     public int newStudent(String name, int year)
     {
         int id = generateID(year);
-        while (start.studentTables[year - 1].getUser(id) != null)
+        Data_Structures.hashTable[] table = start.getStudenTables();
+
+        while (table[year - 1].getUser(id) != null)
         {
             id = generateID(year);
         }
         Student s = new Student(name, id, year);
-        start.studentTables[year - 1].addUser(s);
+        table[year - 1].addUser(s);
         return id;
     }
 
@@ -77,25 +79,27 @@ public class Operations
 
     public borrowedBook[] showHistory(Student s)
     {
-        borrowedBookNode temp = s.borrowHistory.head;
-        borrowedBook[] borrowHis = new borrowedBook[s.borrowHistory.length];
-        for (int i=0; i < s.borrowHistory.length; i++)
+        borrowedBookNode temp = s.getBorrowHistory().getHead();
+        borrowedBook[] borrowHis = new borrowedBook[s.getBorrowHistory().getLength()];
+        
+        for (int i=0; i < s.getBorrowHistory().getLength(); i++)
         {
-            borrowHis[i] = temp.borrowedBook;
-            temp = temp.next;
+            borrowHis[i] = temp.getBorrowedBook();
+            temp = temp.getNext();
         }
+        
         return borrowHis;
     }
 
     public Student[] displayBookWaitingList(int bookId)
     {
-        book foundBook = start.bookTree1.search(bookId);
-        studentNode temp = foundBook.waitingList.head;
-        Student[] waitingList = new Student[foundBook.waitingList.length];
-        for (int i = 0; i < foundBook.waitingList.length; i++)
+        book foundBook = start.getBookTree().search(bookId);
+        studentNode temp = foundBook.getWaitingList().getHead();
+        Student[] waitingList = new Student[foundBook.getWaitingList().getLength()];
+        for (int i = 0; i < foundBook.getWaitingList().getLength(); i++)
         {
-            waitingList[i] = temp.user;
-            temp = temp.next;
+            waitingList[i] = temp.getStudent();
+            temp = temp.getNext();
         }
         return waitingList;
     }

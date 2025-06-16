@@ -11,7 +11,7 @@ public class undoStack
     public void push(adminAction action)
     {
         sNode N = new sNode(action);
-        N.next = top;
+        N.setNext(top);
         top = N;
     }
 
@@ -22,8 +22,8 @@ public class undoStack
             return null;
         }
 
-        adminAction action = top.action;
-        top = top.next;
+        adminAction action = top.getAction();
+        top = top.getNext();
         return action;
     }
 
@@ -32,8 +32,8 @@ public class undoStack
         sNode temp = top;
         while (temp != null)
         {
-            System.out.println(temp.action);
-            temp = temp.next;
+            System.out.println(temp.getAction());
+            temp = temp.getNext();
         }
         System.out.println("null");
     }

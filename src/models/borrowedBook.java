@@ -5,10 +5,10 @@ import java.time.temporal.ChronoUnit;
 
 public class borrowedBook
 {
-    public String name;
-    public int id;
-    public LocalDate borrowDate;
-    public LocalDate dueDate;
+    private String name;
+    private int id;
+    private LocalDate borrowDate;
+    private LocalDate dueDate;
 
     public borrowedBook(String name, int id, LocalDate borrowDate)
     {
@@ -18,8 +18,46 @@ public class borrowedBook
         this.dueDate = borrowDate.plusDays(15); // due after 15 days
     }
 
+    // Getters
+    public String getName()
+    {
+        return name;
+    }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public LocalDate getBorrowDate()
+    {
+        return borrowDate;
+    }
+
+    public LocalDate getDueDate()
+    {
+        return dueDate;
+    }
+
     public long getDaysLeft()
     {
         return ChronoUnit.DAYS.between(LocalDate.now(), dueDate);
+    }
+
+    // Setters
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+    public void setBorrowDate(LocalDate borrowDate)
+    {
+        this.borrowDate = borrowDate;
+        this.dueDate = borrowDate.plusDays(15); // update dueDate accordingly
     }
 }

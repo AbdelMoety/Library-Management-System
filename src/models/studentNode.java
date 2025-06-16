@@ -1,13 +1,35 @@
-// student node
 package models;
+
 public class studentNode
 {
-    public Student user;
-    public studentNode next;
+    private Student student;
+    private studentNode next;
 
-    public studentNode(Student user)
+    public studentNode(Student student)
     {
-        this.user = user;
+        this.student = student;
         this.next = null;
+    }
+
+    // Getters
+    public Student getStudent()
+    {
+        return student;
+    }
+
+    public studentNode getNext()
+    {
+        return next;
+    }
+
+    // Setters
+    public void setStudent(Student student)
+    {
+        this.student = student;
+    }
+
+    public void setNext(studentNode next)
+    {
+        this.next = next;
     }
 }

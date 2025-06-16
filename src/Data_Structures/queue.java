@@ -8,9 +8,24 @@ import models.studentNode;
 
 public class queue
 {
-    public studentNode head;
-    public studentNode tail;
-    public int length;
+    private studentNode head;
+    private studentNode tail;
+    private int length;
+
+    public studentNode getHead()
+    {
+        return head;
+    }
+    
+    public studentNode getTail()
+    {
+        return tail;
+    }
+
+    public int getLength()
+    {
+        return length;
+    }
     
     public String Enqueue(Student s)
     {
@@ -24,11 +39,12 @@ public class queue
         
         else
         {
-            tail.next = N;
+            tail.setNext(N);
             tail = N;
         }
+        
         length++;
-        return (s.name + " has been added to the waiting list!");
+        return (s.getName() + " has been added to the waiting list!");
     }
 
     public String giveBook(int id)
@@ -38,8 +54,8 @@ public class queue
             return "There is no students in the waiting list!";
         }
 
-        String student = head.user.name;
-        head = head.next;
+        String student = head.getStudent().getName();
+        head = head.getNext();
         length--;
         return ("Book " + id + " has been given to " + student);
     }
@@ -51,7 +67,7 @@ public class queue
             return ("None");
         }
         
-        return (head.user.name);
+        return (head.getStudent().getName());
     }
 
     public String removeStudent(int id)
@@ -61,28 +77,28 @@ public class queue
             return ("There is no students waiting!");
         }
 
-        if (head.user.id == id)
+        if (head.getStudent().getId() == id)
         {
-            head = head.next;
+            head = head.getNext();
             length--;
-            return (head.user.name + " has been removed from the waiting list!");
+            return (head.getStudent().getName() + " has been removed from the waiting list!");
         }
     
     
-        studentNode temp = head.next;
-        while (temp.next != null)
+        studentNode temp = head.getNext();
+        while (temp.getNext() != null)
         {
-            if (temp.user.id == id)
+            if (temp.getStudent().getId() == id)
             {
-                temp.next = temp.next.next;
+                temp.setNext(temp.getNext().getNext());
                 length--;
-                return (temp.user.name + " has been removed from the waiting list!");
+                return (temp.getStudent().getName() + " has been removed from the waiting list!");
             }
 
-            temp = temp.next;
+            temp = temp.getNext();
         }
 
-        return (temp.user.name + " is not found in the waiting list!");
+        return (temp.getStudent().getName() + " is not found in the waiting list!");
     }
 
     public boolean isEmpty()
@@ -107,8 +123,8 @@ public class queue
         studentNode temp = head;
         while(temp != null)
         {
-            area.append("Name: " + temp.user.name + ", ID: " + temp.user.id + "\n");
-            temp = temp.next;
+            area.append("Name: " + temp.getStudent().getName() + ", ID: " + temp.getStudent().getId() + "\n");
+            temp = temp.getNext();
         }
     }
 }

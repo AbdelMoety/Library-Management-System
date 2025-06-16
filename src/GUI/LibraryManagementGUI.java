@@ -181,7 +181,7 @@ public class LibraryManagementGUI extends Application
                 int count = Integer.parseInt(countField.getText());
                 
                 if (adminOperations.addBook(id, name, author, count)) {
-                    String result = start.bookTree1.add(new book(id, name, author, count));
+                    String result = start.getBookTree().add(new book(id, name, author, count));
                     addBookResult.setText(result);
                     addBookResult.setTextFill(Color.GREEN);
                     bookIdField.clear();
@@ -300,19 +300,24 @@ public class LibraryManagementGUI extends Application
         
         showBooksButton.setOnAction(e -> {
             booksDisplay.clear();
-            if (start.bookTree1.root != null) {
-                models.book[] books = start.bookTree1.showBooks(start.bookTree1.root);
+            if (start.getBookTree().getRoot() != null)
+            {
+                models.book[] books = start.getBookTree().showBooks(start.getBookTree().getRoot());
                 StringBuilder historyText = new StringBuilder();
-                for (int i = 0; i < books.length; i++) {
-                historyText.append("Name: ").append(books[i].name)
-                            .append(", ID: ").append(books[i].id)
-                            .append(", Author: ").append(books[i].author)
-                            .append(", Quantity: ").append(books[i].count)
+                for (int i = 0; i < books.length; i++)
+                {
+                historyText.append("Name: ").append(books[i].getName())
+                            .append(", ID: ").append(books[i].getId())
+                            .append(", Author: ").append(books[i].getAuthor())
+                            .append(", Quantity: ").append(books[i].getCount())
                             .append("\n");
                 }
 
                 booksDisplay.setText(historyText.toString());
-            } else {
+            }
+            
+            else
+            {
                 booksDisplay.setText("No books available.");
             }
         });
@@ -390,11 +395,12 @@ public class LibraryManagementGUI extends Application
             try {
                 int studentId = Integer.parseInt(borrowStudentIdField.getText());
                 int bookId = Integer.parseInt(borrowBookIdField.getText());
+                Data_Structures.hashTable[] table = start.getStudenTables();
                 
                 // Find student
                 Student student = null;
-                for (int i = 0; i < start.NUM_YEARS; i++) {
-                    student = start.studentTables[i].getUser(studentId);
+                for (int i = 0; i < start.getNumYears(); i++) {
+                    student = table[i].getUser(studentId);
                     if (student != null) break;
                 }
                 
@@ -404,7 +410,7 @@ public class LibraryManagementGUI extends Application
                     return;
                 }
                 
-                book book = start.bookTree1.search(bookId);
+                book book = start.getBookTree().search(bookId);
                 if (book == null) {
                     borrowResult.setText("Book not found.");
                     borrowResult.setTextFill(Color.RED);
@@ -449,11 +455,12 @@ public class LibraryManagementGUI extends Application
             try {
                 int studentId = Integer.parseInt(returnStudentIdField.getText());
                 int bookId = Integer.parseInt(returnBookIdField.getText());
+                Data_Structures.hashTable[] table = start.getStudenTables();
                 
                 // Find student
                 Student student = null;
-                for (int i = 0; i < start.NUM_YEARS; i++) {
-                    student = start.studentTables[i].getUser(studentId);
+                for (int i = 0; i < start.getNumYears(); i++) {
+                    student = table[i].getUser(studentId);
                     if (student != null) break;
                 }
                 
@@ -463,7 +470,7 @@ public class LibraryManagementGUI extends Application
                     return;
                 }
                 
-                borrowedBook borrowedBook = student.borrowHistory.getBB(bookId);
+                borrowedBook borrowedBook = student.getBorrowHistory().getBB(bookId);
                 if (borrowedBook == null) {
                     returnResult.setText("This book is not in student's borrow history.");
                     returnResult.setTextFill(Color.RED);
@@ -503,30 +510,37 @@ public class LibraryManagementGUI extends Application
         showHistoryButton.setOnAction(e -> {
             try {
                 int studentId = Integer.parseInt(historyStudentIdField.getText());
+                Data_Structures.hashTable[] table = start.getStudenTables();
                 
                 // Find student
                 Student student = null;
-                for (int i = 0; i < start.NUM_YEARS; i++) {
-                    student = start.studentTables[i].getUser(studentId);
+                for (int i = 0; i < start.getNumYears(); i++)
+                {
+                    student = table[i].getUser(studentId);
                     if (student != null) break;
                 }
                 
-                if (student == null) {
+                if (student == null)
+                {
                     historyDisplay.setText("Student not found.");
                     return;
                 }
                 
-                if (student.borrowHistory == null || student.borrowHistory.is_Empty()) {
+                if (student.getBorrowHistory().is_Empty())
+                {
                     historyDisplay.setText("No borrow history for this student.");
-                } else {
+                }
+                
+                else
+                {
                     models.borrowedBook[] borrowHis = operations.showHistory(student);
 
                     StringBuilder historyText = new StringBuilder();
                     for (int i = 0; i < borrowHis.length; i++) {
-                    historyText.append("Name: ").append(borrowHis[i].name)
-                                .append(", ID: ").append(borrowHis[i].id)
-                                .append(", Borrow date: ").append(borrowHis[i].borrowDate)
-                                .append(", Due date: ").append(borrowHis[i].dueDate)
+                    historyText.append("Name: ").append(borrowHis[i].getName())
+                                .append(", ID: ").append(borrowHis[i].getId())
+                                .append(", Borrow date: ").append(borrowHis[i].getBorrowDate())
+                                .append(", Due date: ").append(borrowHis[i].getDueDate())
                                 .append("\n");
                     }
 
@@ -560,7 +574,7 @@ public class LibraryManagementGUI extends Application
                 int bookId = Integer.parseInt(waitingListBookIdField.getText());
                 
                 // Find book
-                book book = start.bookTree1.search(bookId);
+                book book = start.getBookTree().search(bookId);
                 
                 if (book == null)
                 {
@@ -568,7 +582,7 @@ public class LibraryManagementGUI extends Application
                     return;
                 }
                 
-                if (book.waitingList.isEmpty())
+                if (book.getWaitingList().isEmpty())
                 {
                     WaitingListDisplay.setText("No waiting list for this book.");
                 }
@@ -580,8 +594,8 @@ public class LibraryManagementGUI extends Application
                     StringBuilder waitingListText = new StringBuilder();
                     for (int i = 0; i < waitingList.length; i++)
                     {
-                    waitingListText.append("Name: ").append(waitingList[i].name)
-                                .append(", ID: ").append(waitingList[i].id)
+                    waitingListText.append("Name: ").append(waitingList[i].getName())
+                                .append(", ID: ").append(waitingList[i].getId())
                                 .append("\n");
                     }
 
@@ -608,7 +622,8 @@ public class LibraryManagementGUI extends Application
 
     }
     
-    private VBox createSection(String title) {
+    private VBox createSection(String title)
+    {
         VBox section = new VBox(10);
         section.setPadding(new Insets(15));
         section.setStyle("-fx-border-color: #bdc3c7; -fx-border-radius: 5; -fx-background-color: #ffffff; -fx-background-radius: 5;");
@@ -623,7 +638,8 @@ public class LibraryManagementGUI extends Application
         return section;
     }
     
-    private Button createActionButton(String text) {
+    private Button createActionButton(String text)
+    {
         Button button = new Button(text);
         button.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-radius: 5;");
         return button;
