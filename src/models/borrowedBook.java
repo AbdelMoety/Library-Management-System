@@ -9,6 +9,7 @@ public class borrowedBook
     private int id;
     private LocalDate borrowDate;
     private LocalDate dueDate;
+    private boolean returned = false;
 
     public borrowedBook(String name, int id, LocalDate borrowDate)
     {
@@ -44,6 +45,11 @@ public class borrowedBook
         return ChronoUnit.DAYS.between(LocalDate.now(), dueDate);
     }
 
+    public boolean getReturned()
+    {
+        return returned;
+    }
+
     // Setters
     public void setName(String name)
     {
@@ -59,5 +65,10 @@ public class borrowedBook
     {
         this.borrowDate = borrowDate;
         this.dueDate = borrowDate.plusDays(15); // update dueDate accordingly
+    }
+
+    public void setReturned(boolean returned)
+    {
+        this.returned = returned;
     }
 }

@@ -47,6 +47,25 @@ public class queue
         return (s.getName() + " has been added to the waiting list!");
     }
 
+    public void Dequeue()
+    {
+        head = head.getNext();
+    }
+
+    public Student[] getQueueWaitingList()
+    {
+        Student[] students = new Student[length];
+        studentNode temp = head;
+        for (int i = 0; i < length; i++)
+        {
+            students[i] = temp.getStudent();
+            temp = temp.getNext();
+            length--;
+        }
+
+        return students;
+    }
+
     public String giveBook(int id)
     {
         if (isEmpty())

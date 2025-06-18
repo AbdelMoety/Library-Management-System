@@ -3,6 +3,7 @@ package Logic;
 import Main.start;
 import models.book;
 import models.adminAction;
+import models.Student;
 
 
 public class adminOperations 
@@ -31,15 +32,34 @@ public class adminOperations
             b = new book(id, name, author, count);
             start.getBookTree().add(b);
             start.geStack().push(new adminAction("ADD", null, b));
-    
         }
         
         else
         {
             book bookBefore = new book(b.getId(), b.getName(), b.getAuthor(), b.getCount());
             book bookAfter = new book(id, name, author, count+b.getCount());
-            start.geStack().push(new adminAction("INC", bookBefore, bookAfter));
             b.setCount(b.getCount() + count);
+            Student[] students = b.getWaitingList().getQueueWaitingList();
+            int length = students.length;
+            if (length <= count)
+            {
+                for (int i = 0; i < length; i++)
+                {
+                    Operations.borrow(students[i], b);
+                    length = b.getWaitingList().getLength();
+                    b.getWaitingList().Dequeue();
+                }
+            }
+
+            else
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    Operations.borrow(students[i], b);
+                    b.getWaitingList().Dequeue();
+                }
+            }
+            start.geStack().push(new adminAction("INC", bookBefore, bookAfter));
         }
         
         b.setIsAvailable(true);

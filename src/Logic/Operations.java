@@ -15,12 +15,16 @@ public class Operations
 
     public static boolean borrow(Student s, book b)
     {
-        if (s.canBorrow())
+        
+        if (s.getBorrowHistory().getBB(b.getId()) != null)
         {
-            return false;
+            if (!s.getBorrowHistory().getBB(b.getId()).getReturned())
+            {
+                return false;
+            }
         }
 
-        if (!b.getIsAvailable())
+        if (!s.canBorrow() || !b.getIsAvailable())
         {
             return false;
         }

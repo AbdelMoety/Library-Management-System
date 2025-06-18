@@ -175,24 +175,43 @@ public class LibraryManagementGUI extends Application
         
         addBookButton.setOnAction(e -> {
             try {
-                int id = Integer.parseInt(bookIdField.getText());
+                Integer id = Integer.parseInt(bookIdField.getText());
                 String name = bookNameField.getText();
                 String author = authorField.getText();
-                int count = Integer.parseInt(countField.getText());
+                Integer count = Integer.parseInt(countField.getText());
+
+                book found = start.getBookTree().search(id);
+
+                if(found == null)
+                {
+                    if (bookIdField.getText().isEmpty() || bookNameField.getText().isEmpty() || authorField.getText().isEmpty() || countField.getText().isEmpty())
+                    {
+                        addBookResult.setText("All Fields must be entered!!"); // show a pop out of the warning
+                        addBookResult.setTextFill(Color.RED);
+                        return;
+                    }
+                }
                 
-                if (adminOperations.addBook(id, name, author, count)) {
-                    String result = start.getBookTree().add(new book(id, name, author, count));
-                    addBookResult.setText(result);
+                if (adminOperations.addBook(id, name, author, count))
+                {
+                    start.getBookTree().add(new book(id, name, author, count));
+                    addBookResult.setText(count + " new book(s) with name: " + start.getBookTree().search(id).getName() + ", and ID: " + id + " was added succefully.");
                     addBookResult.setTextFill(Color.GREEN);
                     bookIdField.clear();
                     bookNameField.clear();
                     authorField.clear();
                     countField.clear();
-                } else {
+                }
+                
+                else
+                {
                     addBookResult.setText("Failed to add book.");
                     addBookResult.setTextFill(Color.RED);
                 }
-            } catch (NumberFormatException ex) {
+            }
+            
+            catch (NumberFormatException ex)
+            {
                 addBookResult.setText("Please enter valid numeric values.");
                 addBookResult.setTextFill(Color.RED);
             }
@@ -508,7 +527,8 @@ public class LibraryManagementGUI extends Application
         historyDisplay.setPrefRowCount(6);
         
         showHistoryButton.setOnAction(e -> {
-            try {
+            try 
+            {
                 int studentId = Integer.parseInt(historyStudentIdField.getText());
                 Data_Structures.hashTable[] table = start.getStudenTables();
                 
@@ -536,18 +556,22 @@ public class LibraryManagementGUI extends Application
                     models.borrowedBook[] borrowHis = operations.showHistory(student);
 
                     StringBuilder historyText = new StringBuilder();
-                    for (int i = 0; i < borrowHis.length; i++) {
-                    historyText.append("Name: ").append(borrowHis[i].getName())
-                                .append(", ID: ").append(borrowHis[i].getId())
-                                .append(", Borrow date: ").append(borrowHis[i].getBorrowDate())
-                                .append(", Due date: ").append(borrowHis[i].getDueDate())
-                                .append("\n");
+                    for (int i = 0; i < borrowHis.length; i++)
+                    {
+                        historyText.append("Name: ").append(borrowHis[i].getName())
+                                    .append(", ID: ").append(borrowHis[i].getId())
+                                    .append(", Borrow date: ").append(borrowHis[i].getBorrowDate())
+                                    .append(", Due date: ").append(borrowHis[i].getDueDate())
+                                    .append("\n");
                     }
 
                     historyDisplay.setText(historyText.toString());
 
                 }
-            } catch (NumberFormatException ex) {
+            }
+            
+            catch (NumberFormatException ex)
+            {
                 historyDisplay.setText("Please enter a valid student ID.");
             }
         });
@@ -606,7 +630,7 @@ public class LibraryManagementGUI extends Application
             
             catch (NumberFormatException ex)
             {
-                historyDisplay.setText("Please enter a valid student ID.");
+                WaitingListDisplay.setText("Please enter a valid student ID.");
             }
         });
 

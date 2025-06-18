@@ -17,25 +17,24 @@ public class bookTree
         return root;
     }
     
-    public String add(book book)
+    public boolean add(book book)
     {
         if(root == null)
         {
             root = new tNode(book);
             counter = counter +1;
-            System.out.println(book.getCount());
-            return "Book with name: " + book.getName() + ", and ID: " + book.getId() + " was added succefully.";
+            return true;
         }
         
         return addRecursion(root, book);
     }
 
-    private String addRecursion(tNode current, book book)
+    private boolean addRecursion(tNode current, book book)
     {
         if(book.getId() == current.getBook().getId())
         {
             
-            return book.getCount() + " Books with name: " + book.getName() + ", and ID: " + book.getId() + " were added succefully." ;
+            return true;
         }
         
         else if(book.getId() < current.getBook().getId())
@@ -43,7 +42,7 @@ public class bookTree
             if(current.getLeft() == null)
             {
                 current.setLeft(new tNode(book));
-                return "Book with name: " + book.getName() + ",and ID: " + book.getId() + " was added succefully.";
+                return true;
             }
 
             return addRecursion(current.getLeft(), book);
@@ -55,7 +54,7 @@ public class bookTree
             {
                 current.setRight(new tNode(book));
                 book.setIsAvailable(true);
-                return "Book with name: " + book.getName() + ", and ID: " + book.getId() + " was added succefully.";
+                return true;
             }
 
             return addRecursion(current.getRight(), book);

@@ -3,6 +3,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "adminOperations",
+      "request": "launch",
+      "mainClass": "Logic.adminOperations",
+      "projectName": "Library-Management-System_f9db68f0"
+    },
+    {
+      "type": "java",
+      "name": "tNode",
+      "request": "launch",
+      "mainClass": "models.tNode",
+      "projectName": "Library-Management-System_f9db68f0"
+    },
+    {
+      "type": "java",
       "name": "Launch JavaFX GUI",
       "request": "launch",
       "mainClass": "GUI.LibraryManagementGUI",
