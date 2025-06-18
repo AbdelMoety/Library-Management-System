@@ -46,7 +46,6 @@ public class adminOperations
                 for (int i = 0; i < length; i++)
                 {
                     Operations.borrow(students[i], b);
-                    length = b.getWaitingList().getLength();
                     b.getWaitingList().Dequeue();
                 }
             }

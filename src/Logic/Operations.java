@@ -50,6 +50,8 @@ public class Operations
             book b = start.getBookTree().search(bo.getId());
             s.setBorrowCount(s.getBorrowCount() - 1);
             b.setCount(b.getCount() + 1);
+            Operations.borrow(b.getWaitingList().peek(), b);
+            b.getWaitingList().Dequeue();
             return true;
         }
         return false;

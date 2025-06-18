@@ -50,6 +50,7 @@ public class queue
     public void Dequeue()
     {
         head = head.getNext();
+        length--;
     }
 
     public Student[] getQueueWaitingList()
@@ -60,7 +61,6 @@ public class queue
         {
             students[i] = temp.getStudent();
             temp = temp.getNext();
-            length--;
         }
 
         return students;
@@ -79,14 +79,14 @@ public class queue
         return ("Book " + id + " has been given to " + student);
     }
 
-    public String peek()
+    public Student peek()
     {
         if (isEmpty())
         {
-            return ("None");
+            return null;
         }
         
-        return (head.getStudent().getName());
+        return head.getStudent();
     }
 
     public String removeStudent(int id)
